@@ -7,39 +7,44 @@
  * Author:      Basil Gren
  * License:     GPL v2 or BSD 3 point style
  */
-(function($){
+(function($) {
+
 
 $.fn.dataTableExt.oApi.fnEnumColumn = function (oSettings, oOptions){
 
     var defaults = {
-        title: '#'
+        columnNumber: 1,
+        format: null
     };
 
     var options = $.extend(true, {}, defaults, oOptions);
 
-    // Binding function onRowCallback to aoRowCallback are buggy - after each
-    // sorting new enum column is added to the table.
-    /*
+
     oSettings.oApi._fnCallbackReg(oSettings, 'aoRowCallback',
-            function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-                $(nRow).prepend($('<td>' + (oSettings._iDisplayStart +
-                                            iDisplayIndex + 1) + '</td>'));
-            }, 'enumerate_callback');
-    */
+        function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+            var rowNum = oSettings._iDisplayStart + iDisplayIndex + 1;
+            var $row = $(nRow).find('td:nth-child(' + options.columnNumber + ')');
+
+            var value;
+            if (options.format)
+            {
+                if (typeof options.format === "string")
+                    value = options.format.replace('%d', rowNum);
+                else if (typeof options.format === 'function')
+                    value = options.format(rowNum, aData);
+                else
+                    value = rowNum.toString();
+            }
+            else
+                value = rowNum.toString();
+
+            $row.html(value);
+
+        }, 'enumerate_callback');
 
 
-    function onRowCreated(nRow, aData, iDisplayIndex)
-    {
-        $(nRow).prepend($('<td>' + (oSettings._iDisplayStart +
-                                    iDisplayIndex + 1) + '</td>'));
-    }
-
-    // Unfortunately, binding to aoRowCreatedCallback does not work too.
-    oSettings.oApi._fnCallbackReg(oSettings, 'aoRowCreatedCallback',
-                                  onRowCreated, 'user' );
-
-    var $headerRow = $(oSettings.nTHead).find('tr');
-    $headerRow.prepend($('<th>' + options.title + '</th>'));
+    // Redraw the whole table without refiltering and resorting.
+    oSettings.oInstance.fnDraw(false);
 
     return this;
 };

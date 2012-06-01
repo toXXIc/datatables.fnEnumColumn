@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
     <script type="text/javascript" src="lib/jquery.js"></script>
     <script type="text/javascript" src="lib/jquery.dataTables.js"></script>
-    <script type="text/javascript" src="lib/sample_data.js"></script>
+    <script type="text/javascript" src="spec/sampleData.js"></script>
     <script type="text/javascript" src="src/datatables.fnEnumColumn.js"></script>
 </head>
 
@@ -49,6 +49,11 @@ $(function(){
     });
 
     dt.fnEnumColumn();
+
+    dt.fnEnumColumn({
+        columnNumber: 2,
+        format: function (rowNum){ return 'Data: ' + rowNum * 3;}
+    });
 
 });
 </script>
