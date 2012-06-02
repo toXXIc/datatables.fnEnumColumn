@@ -1,11 +1,11 @@
 /*
- * Inputs:      object:oSettings - dataTables settings object -
-                automatically given
+ * Inputs:      object:oSettings - dataTables settings object - automatically given
  *              oOptions - additional options to customize plugin behavior
  *
  * Usage:       $('#example').dataTable().fnEnumColumn(options);
  * Author:      Basil Gren
  * License:     GPL v2 or BSD 3 point style
+ * Version:     1.0.0 (03-Jun-2012)
  */
 (function($) {
 
