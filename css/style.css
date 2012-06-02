@@ -329,12 +329,22 @@ table.styled tbody tr:nth-child(odd) td {
     float: right;
 }
 
+.dataTables_info {
+    float: right;
+}
+
 .dataTables_length select {
     width: 80px;
 }
+
 
 .dataTables_paginate a {
     display: inline-block;
     width: 80px;
     text-align: center;
+    cursor: default;
+}
+
+.dataTable {
+    margin: 8px 0;
 }
